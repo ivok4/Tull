@@ -6,44 +6,51 @@ import Header from '../Header'
 import Introduccion from '../Introduccion'
 import Footer from '../Footer'
 
-class App extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      filters:{
-        filter1:'select',
-        filter2:'select'
-      }
 
-    }
+const viewportContext = React.createContext({});
 
+const ViewportProvider = ({ children }) => {
+  const [width, setWidth] = React.useState(window.innerWidth);
+  const [height, setHeight] = React.useState(window.innerHeight);
+  const handleWindowResize = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
 
+  React.useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
 
-    this.HandleFilterChange= this.HandleFilterChange.bind(this)
-  }
+  return (
+    <viewportContext.Provider value={{ width, height }}>
+      {children}
+    </viewportContext.Provider>
+  );
+};
 
-HandleFilterChange(event){
+const useViewport = () => {
+  const { width, height } = React.useContext(viewportContext);
+  return { width, height };
+};
 
-  let payload=this.state.filters
-  payload[event.target.name]=event.target.value
+const MobileComponent = () => <p>"Hmmm... Why is your screen so small?"</p>;
+const DesktopComponent = () => <p>"Wow, your screen is big!"</p>;
 
-  this.setState({
-    filters:payload
-  })
-console.log(this.state.filters)
+const MyComponent = () => {
+  const { width } = useViewport();
+  const breakpoint = 620;
+
+  return width < breakpoint ? <MobileComponent /> : <DesktopComponent />;
+};
+
+export default function App() {
+  return (
+    <ViewportProvider>
+      <Navbar />
+      <Header />
+      <Introduccion />
+      <Footer />
+    </ViewportProvider>
+  );
 }
-
-  render (){
-    return (
-    <Container>
-        <Navbar />
-        <Header />
-        <Introduccion />
-        <Footer />
-    </Container>
-    )
-
-  }
-   
-}
-export default App;

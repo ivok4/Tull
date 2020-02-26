@@ -125,6 +125,13 @@ color: #0F3D4C;
 width: 80%;
 margin-left: 10%;
 margin-top: 5%;
+h1{
+    font-size: 20px;
+    color: #FFF;
+    width: 20%;
+    margin-left: 40%;
+    margin-top: 5%;
+}
 h2{
     font-size: 15px;
     color: #FFF;

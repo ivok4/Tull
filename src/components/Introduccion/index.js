@@ -51,7 +51,7 @@ const Introduccion = () => {
             </Contenedor>
             <BlueBackground>
                 <Sector2>
-                    <Title>PLANS & PRICING</Title>
+                    <h1>PLANS & PRICING</h1>
                     <h2>Get started with one of ours suscription plans.</h2>
                     <ContenedorAzul>
                         <WrapperLeft>
